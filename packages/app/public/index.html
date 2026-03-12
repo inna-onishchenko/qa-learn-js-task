@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QA Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; max-width: 960px; margin: 0 auto; padding: 2rem; color: #1a1a1a; }
+    h1 { margin-bottom: 1.5rem; }
+    .card { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+    .card h2 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+    input, button, textarea { font: inherit; padding: 0.4rem 0.6rem; }
+    button { cursor: pointer; background: #2563eb; color: #fff; border: none; border-radius: 4px; }
+    button:hover { background: #1d4ed8; }
+    #output { white-space: pre-wrap; background: #f5f5f5; padding: 1rem; border-radius: 4px; min-height: 3rem; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>QA Dashboard</h1>
+
+  <!-- Students will add interactive cards here as part of the frontend tasks -->
+
+  <div class="card">
+    <h2>Health Check</h2>
+    <button id="health-btn">Check</button>
+  </div>
+
+  <div id="output">Ready.</div>
+
+  <script>
+    const output = document.getElementById("output");
+
+    document.getElementById("health-btn").addEventListener("click", async () => {
+      const res = await fetch("/api/health");
+      const data = await res.json();
+      output.textContent = JSON.stringify(data, null, 2);
+    });
+  </script>
+</body>
+</html>
