@@ -88,15 +88,20 @@ qa-learn-js-task/
     │   ├── package.json
     │   ├── src/
     │   │   ├── index.ts         ← Express entry point (runs via tsx)
-    │   │   └── routes/          ← your route files go here (.js or .ts)
+    │   │   └── routes/
+    │   │       ├── health-js.js ← example route in JavaScript
+    │   │       └── health-ts.ts ← same route in TypeScript (typed)
     │   └── public/
     │       └── index.html       ← dashboard page
     └── e2e/
         ├── package.json
         ├── playwright.config.js
         └── tests/
-            └── health.spec.js   ← example test
+            ├── health.spec.js   ← example tests in JavaScript
+            └── health.spec.ts   ← same tests in TypeScript (typed)
 ```
+
+The JS and TS files are intentionally side by side so you can compare them. They do the same thing — the `.ts` versions add interfaces, type annotations, and use `import`/`export` instead of `require`/`module.exports`. This mirrors real projects where JS and TS coexist during a migration.
 
 ## Useful links
 

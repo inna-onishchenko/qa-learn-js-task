@@ -20,6 +20,8 @@ npm test             # run Playwright tests (starts server automatically)
 
 For frontend tasks: add UI to `packages/app/public/index.html`, then write Playwright browser tests.
 
+> **JS and TS side by side**: the repo includes example files in both JavaScript and TypeScript — look at `health.spec.js` and `health.spec.ts` in the e2e tests, and `health-js.js` and `health-ts.ts` in the app routes. They do the same thing, but the `.ts` versions use typed interfaces, `import`/`export`, and type annotations. This lets you compare the two languages directly. For Parts 1–6, write your code in JavaScript. In Part 7, you'll rewrite everything in TypeScript.
+
 > **Rule — two versions**: most tasks ask you to implement something "without using `<method>`". For each of these, create **two endpoints**:
 >
 > 1. **Manual** — `POST /api/<group>/manual/<name>` — loops, conditions, no built-in shortcut.
