@@ -49,21 +49,22 @@ npm test
 
 ## How to work through the tasks
 
-Open **[TASK.md](./TASK.md)** — it contains all the tasks organized into 6 parts:
+Open **[TASK.md](./TASK.md)** — it contains all the tasks organized into 7 parts:
 
-| Part | What you build | What you practice |
-|------|---------------|-------------------|
-| 1. String Endpoints | `split`, `repeat`, `trim`, `includes`, `padStart` | Loops, string indexing, conditionals |
-| 2. Array Endpoints | `map`, `filter`, `reduce`, `find`, `sort`, `flat` | Loops, accumulator pattern, recursion |
-| 3. Objects & Data Structures | `pick`, `merge`, `unique`, `intersection`, `wordFrequency`, `safeGet` | Destructuring, spread/rest, Set, Map, `?.`, `??` |
-| 4. Chaining & Composition | `pipeline`, `transform` | `.map()`, `.filter()`, `.reduce()` chaining |
-| 5. Frontend | Interactive UI cards | DOM manipulation, Playwright browser tests |
-| 6. Error Handling | Validate inputs, return proper errors | Defensive coding, HTTP status codes, negative testing |
+| Part                         | What you build                                                                                              | What you practice                                          |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| 1. String Endpoints          | `split`, `repeat`, `trim`, `includes`, `padStart`, `slice`, `replace`, `startsWith`                         | Loops, string indexing, conditionals                       |
+| 2. Array Endpoints           | `map`, `filter`, `reduce`, `find`, `sort`, `flat`, `some/every`, `findIndex`, `reverse`, `at`, `flatMap`    | Loops, accumulator pattern, recursion                      |
+| 3. Objects & Data Structures | `pick`, `merge`, `unique`, `intersection`, `wordFrequency`, `keys/values/entries`, `fromEntries`, `safeGet` | Destructuring, spread/rest, Set, Map, `?.`, `??`           |
+| 4. Chaining & Composition    | `pipeline`, `transform`                                                                                     | `.map()`, `.filter()`, `.reduce()` chaining                |
+| 5. Frontend                  | Interactive UI cards                                                                                        | DOM manipulation, Playwright browser tests                 |
+| 6. Error Handling            | Validate inputs, return proper errors                                                                       | Defensive coding, HTTP status codes, negative testing      |
+| 7. TypeScript Rewrite        | Rewrite all routes and tests in TypeScript                                                                  | Interfaces, union types, type guards, discriminated unions |
 
 ### Workflow for each task
 
 1. Read the task in TASK.md.
-2. Create a route file in `packages/app/src/routes/` and register it in `packages/app/src/index.js`.
+2. Create a route file in `packages/app/src/routes/` and register it in `packages/app/src/index.ts`.
 3. Create a test file in `packages/e2e/tests/`.
 4. Run `npm test` — green means move on.
 
@@ -86,8 +87,8 @@ qa-learn-js-task/
     ├── app/
     │   ├── package.json
     │   ├── src/
-    │   │   ├── index.js         ← Express entry point
-    │   │   └── routes/          ← your route files go here
+    │   │   ├── index.ts         ← Express entry point (runs via tsx)
+    │   │   └── routes/          ← your route files go here (.js or .ts)
     │   └── public/
     │       └── index.html       ← dashboard page
     └── e2e/

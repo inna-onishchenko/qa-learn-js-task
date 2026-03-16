@@ -2,10 +2,15 @@
   "name": "app",
   "version": "1.0.0",
   "private": true,
+  "type": "commonjs",
   "scripts": {
-    "dev": "node src/index.js"
+    "dev": "tsx src/index.ts"
   },
   "dependencies": {
     "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "tsx": "^4.21.0"
   }
 }
