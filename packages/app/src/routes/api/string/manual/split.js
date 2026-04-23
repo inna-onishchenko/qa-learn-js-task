@@ -2,41 +2,47 @@ const { Router } = require("express");
 
 const router = Router();
 
-router.post("/split", (_req, res) => {
-    let str = _req.body.str;
-    let separator = _req.body.separator;
+router.post("/split", (req, res) => {
+    const str = req.body.str;
+    const separator = req.body.separator;
+    let current = "";
     let result = [];
-    const firstIndex = str[0];
-    const lastIndex = str[str.length - 1];
-    if (separator.length === 1 && separator !== " " && str.includes(separator) && (firstIndex !== separator && lastIndex !== separator)) {
-        for (let i = 0; i < str.length; i++) {
-            let current = "";
-            while (i < str.length && str[i] !== separator && str[i] !== " ") {
+    if (typeof(str) !== "string" || typeof(separator) !== "string") {
+        let result = "Invalid input parameters";
+        res.statusCode = 400;
+        res.json({ status: "bad_request", language: "javascript", message: result });
+    } else if (str === current && separator === current) {
+        res.json({ status: "ok", language: "javascript", message: result });
+    } else if (str !== current && separator === current) {
+        result.push(str);
+        res.json({ status: "ok", language: "javascript", message: result });
+    } else if (str === current && separator !== current) {
+        result.push(emptyStr);
+        res.json({ status: "ok", language: "javascript", message: result });
+    } else if (str !== current && separator !== current) {
+        let i = 0;
+        while (i < str.length) {
+            let strIsNotSeparator = true;
+            for (let j = 0; j < separator.length; j++) {
+                if (str[i + j] !== separator[j]) {
+                    strIsNotSeparator = false;
+                    break;
+                }
+            }
+            if (strIsNotSeparator) {
+                result.push(current);
+                current = "";
+                i += separator.length;
+             } else {
                 current += str[i];
                 i++;
             }
-            if (current) {
-                result.push(current);
-            }
-        }
-        res.json({ status: "ok", language: "javascript", message: result });
-    } else if (separator.length !== 1) {
-        let result = "Separator should be a single character";
-        res.json({ status: "ok", language: "javascript", message: result });
-    } else if (separator === " ") {
-        let result = "Separator should not be a space character";
-        res.json({ status: "ok", language: "javascript", message: result });
-    } else if (!str.includes(separator)) {
-        let result = "String should contain the separator";
-        res.json({ status: "ok", language: "javascript", message: result });
-    } else if (firstIndex === separator || lastIndex === separator) {
-        let result = "String should not start or end with the separator";
-        res.json({ status: "ok", language: "javascript", message: result });
-    } else {
-        let result = "Invalid input parameters";
+    }
+        result.push(current);
         res.json({ status: "ok", language: "javascript", message: result });
     }
-});
+}
+);
 
 module.exports = router;
 

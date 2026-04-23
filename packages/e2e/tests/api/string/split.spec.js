@@ -1,81 +1,112 @@
 const { test, expect } = require("@playwright/test");
 
-let reqStr = "aaa,b,cc";
-let reqSeparator = ",";
-let expectedResult = ["aaa", "b", "cc"];
-let spaceSeparator = " ";
-let longSeparator = ",,";
-let notIncludedSeparator = ";";
-let startWithSeparator = ",aaa,b,cc";
-let endWithSeparator = "aaa,b,cc,";
+const reqStr1 = "aaa,b,cc";
+const reqSeparator1 = ",";
+const expectedResult1 = ["aaa", "b", "cc"];
+const reqStr2 = " aaa b cc ";
+const spaceSeparator = " ";
+const expectedResult2 = ["", "aaa", "b", "cc", ""];
+const reqStr3 = "aaa,,b,cc ";
+const longSeparator = ",,";
+const expectedResult3 = ["aaa", "b,cc "];
+const nanSeparator = NaN;
+const numberStr = 123;
+const expectedResult4 = "Invalid input parameters";
+
 
 // --- API tests ---
 
 test("Both GET /api/string/manual/split and GET /api/string/builtin/split responses are ok", async ({ request }) => {
-    const res1 = await request.post(`/api/string/manual/split`, { json: { str: reqStr, separator: reqSeparator } });
-    const res2 = await request.post(`/api/string/builtin/split`, { json: { str: reqStr, separator: reqSeparator } });
-    expect(res1.ok()).toBeTruthy();
-    expect(res2.ok()).toBeTruthy();
-    expect(res1.status()).toEqual(200);
-    expect(res2.status()).toEqual(200);
-    expect(String((await res1.json()).language)).toEqual("javascript");
-    expect(String((await res2.json()).language)).toEqual("javascript");
+    const req1 = await request.post(`/api/string/manual/split`, { data: { str: reqStr1, separator: reqSeparator1 } });
+    const req2 = await request.post(`/api/string/builtin/split`, { data: { str: reqStr1, separator: reqSeparator1 } });
+    const resBody1 = await req1.json();
+    const resBody2 = await req2.json();
+    expect(req1.ok()).toBeTruthy();
+    expect(req2.ok()).toBeTruthy();
+    expect(req1.status()).toEqual(200);
+    expect(req2.status()).toEqual(200);
+    expect(resBody1.status).toEqual("ok");
+    expect(resBody2.status).toEqual("ok");
+    expect(resBody1.language).toEqual("javascript");
+    expect(resBody2.language).toEqual("javascript");
 });
 
 test("Both GET /api/string/manual/split and GET /api/string/builtin/split messages are arrays", async ({ request }) => {
-    const res1 = await request.post(`/api/string/manual/split`, { json: { str: reqStr, separator: reqSeparator } });
-    const res2 = await request.post(`/api/string/builtin/split`, { json: { str: reqStr, separator: reqSeparator } });
-    expect(Array.isArray((await res1.json()).message)).toBeTruthy();
-    expect(Array.isArray((await res2.json()).message)).toBeTruthy();
+    const req1 = await request.post(`/api/string/manual/split`, { data: { str: reqStr1, separator: reqSeparator1 } });
+    const req2 = await request.post(`/api/string/builtin/split`, { data: { str: reqStr1, separator: reqSeparator1 } });
+    const resBody1 = await req1.json();
+    const resBody2 = await req2.json();
+    expect(Array.isArray(resBody1.message)).toBeTruthy();
+    expect(Array.isArray(resBody2.message)).toBeTruthy();
 });
 
-test("Both GET /api/string/builtin/split and GET /api/string/manual/split responses are equal", async ({ request }) => {
-  const res1 = await request.post(`/api/string/builtin/split`, { json: { str: reqStr, separator: reqSeparator } });
-  const res2 = await request.post(`/api/string/manual/split`, { json: { str: reqStr, separator: reqSeparator } });
-  expect(await res1.json()).toEqual(await res2.json());
+test("Both GET /api/string/builtin/split and GET /api/string/manual/split can handle single character separators", async ({ request }) => {
+  const req1 = await request.post(`/api/string/builtin/split`, { data: { str: reqStr1, separator: reqSeparator1 } });
+  const req2 = await request.post(`/api/string/manual/split`, { data: { str: reqStr1, separator: reqSeparator1 } });
+  const resBody1 = await req1.json();
+  const resBody2 = await req2.json();
+  expect(resBody1.message).toEqual(expectedResult1);
+  expect(resBody2.message).toEqual(expectedResult1);
+  expect(resBody1).toEqual(resBody2);
 });
 
-test("Both GET /api/string/builtin/split and GET /api/string/manual/split messages are equal to expected result", async ({ request }) => {
-  const res1 = await request.post(`/api/string/builtin/split`, { json: { str: reqStr, separator: reqSeparator } });
-  const res2 = await request.post(`/api/string/manual/split`, { json: { str: reqStr, separator: reqSeparator } });
-  expect((await res1.json()).message).toEqual(expectedResult);
-  expect((await res2.json()).message).toEqual(expectedResult);
+test("Both GET /api/string/builtin/split and GET /api/string/manual/split can handle space separators", async ({ request }) => {
+  const req1 = await request.post(`/api/string/builtin/split`, { data: { str: reqStr2, separator: spaceSeparator } });
+  const req2 = await request.post(`/api/string/manual/split`, { data: { str: reqStr2, separator: spaceSeparator } });
+  const resBody1 = await req1.json();
+  const resBody2 = await req2.json();
+  expect(resBody1.message).toEqual(expectedResult2);
+  expect(resBody2.message).toEqual(expectedResult2);
+  expect(resBody1).toEqual(resBody2);
 });
 
-test("Both GET /api/string/manual/split and GET /api/string/builtin/split handle space separator", async ({ request }) => {
-  const res1 = await request.post(`/api/string/manual/split`, { json: { str: reqStr, separator: spaceSeparator } });
-  const res2 = await request.post(`/api/string/builtin/split`, { json: { str: reqStr, separator: spaceSeparator } });
-  expect((await res1.json()).message).toEqual("Separator should not be a space character");
-  expect((await res2.json()).message).toEqual("Separator should not be a space character");
+test("Both GET /api/string/builtin/split and GET /api/string/manual/split can handle multiple character separators", async ({ request }) => {
+  const req1 = await request.post(`/api/string/builtin/split`, { data: { str: reqStr3, separator: longSeparator } });
+  const req2 = await request.post(`/api/string/manual/split`, { data: { str: reqStr3, separator: longSeparator } });
+  const resBody1 = await req1.json();
+  const resBody2 = await req2.json();
+  expect(resBody1.message).toEqual(expectedResult3);
+  expect(resBody2.message).toEqual(expectedResult3);
+  expect(resBody1).toEqual(resBody2);
 });
 
-test("Both GET /api/string/manual/split and GET /api/string/builtin/split handle long separator", async ({ request }) => {
-  const res1 = await request.post(`/api/string/manual/split`, { json: { str: reqStr, separator: longSeparator } });
-  const res2 = await request.post(`/api/string/builtin/split`, { json: { str: reqStr, separator: longSeparator } });
-  expect((await res1.json()).message).toEqual("Separator should be a single character");
-  expect((await res2.json()).message).toEqual("Separator should be a single character");
-});
-
-test("Both GET /api/string/manual/split and GET /api/string/builtin/split handle not included separator", async ({ request }) => {
-  const res1 = await request.post(`/api/string/manual/split`, { json: { str: reqStr, separator: notIncludedSeparator } });
-  const res2 = await request.post(`/api/string/builtin/split`, { json: { str: reqStr, separator: notIncludedSeparator } });
-  expect((await res1.json()).message).toEqual("String should contain the separator");
-  expect((await res2.json()).message).toEqual("String should contain the separator");
-});
-
-test("Both GET /api/string/manual/split and GET /api/string/builtin/split handle string starting with separator", async ({ request }) => {
-  const res1 = await request.post(`/api/string/manual/split`, { json: { str: startWithSeparator, separator: reqSeparator } });
-  const res2 = await request.post(`/api/string/builtin/split`, { json: { str: startWithSeparator, separator: reqSeparator } });
-  expect((await res1.json()).message).toEqual("String should not start or end with the separator");
-  expect((await res2.json()).message).toEqual("String should not start or end with the separator");
-});
-
-test("Both GET /api/string/manual/split and GET /api/string/builtin/split handle string ending with separator", async ({ request }) => {
-  const res1 = await request.post(`/api/string/manual/split`, { json: { str: endWithSeparator, separator: reqSeparator } });
-  const res2 = await request.post(`/api/string/builtin/split`, { json: { str: endWithSeparator, separator: reqSeparator } });
-  expect((await res1.json()).message).toEqual("String should not start or end with the separator");
-  expect((await res2.json()).message).toEqual("String should not start or end with the separator");
-});
+test("Both GET /api/string/manual/split and GET /api/string/builtin/split can handle invalid input", async ({ request }) => {
+  const req1 = await request.post(`/api/string/manual/split`, { data: { str: reqStr1 } });
+  const req2 = await request.post(`/api/string/builtin/split`, { data: { str: reqStr1 } });
+  const req3 = await request.post(`/api/string/manual/split`, { data: { separator: reqSeparator1 } });
+  const req4 = await request.post(`/api/string/builtin/split`, { data: { separator: reqSeparator1 } });
+  const req5 = await request.post(`/api/string/manual/split`, { data: { str: numberStr, separator: reqSeparator1 } });
+  const req6 = await request.post(`/api/string/builtin/split`, { data: { str: reqStr1, separator: nanSeparator } });
+  const resBody1 = await req1.json();
+  const resBody2 = await req2.json();
+  const resBody3 = await req3.json();
+  const resBody4 = await req4.json();
+  const resBody5 = await req5.json();
+  const resBody6 = await req6.json();
+  expect(req1.ok()).toBeFalsy();
+  expect(req2.ok()).toBeFalsy();
+  expect(req1.status()).toEqual(400);
+  expect(req2.status()).toEqual(400);
+  expect(req1.status()).toEqual(400);
+  expect(req2.status()).toEqual(400);
+  expect(req3.status()).toEqual(400);
+  expect(req4.status()).toEqual(400);
+  expect(req5.status()).toEqual(400);
+  expect(req6.status()).toEqual(400);
+  expect(resBody1.status).toEqual("bad_request");
+  expect(resBody2.status).toEqual("bad_request");
+  expect(resBody3.status).toEqual("bad_request");
+  expect(resBody4.status).toEqual("bad_request");
+  expect(resBody5.status).toEqual("bad_request");
+  expect(resBody6.status).toEqual("bad_request");
+  expect(resBody1.message).toEqual(expectedResult4);
+  expect(resBody2.message).toEqual(expectedResult4);
+  expect(resBody3.message).toEqual(expectedResult4);
+  expect(resBody4.message).toEqual(expectedResult4);
+  expect(resBody5.message).toEqual(expectedResult4);
+  expect(resBody6.message).toEqual(expectedResult4);
+}
+);
 
 // --- UI test ---
 
