@@ -87,8 +87,6 @@ test("Both GET /api/string/manual/split and GET /api/string/builtin/split can ha
   expect(req2.ok()).toBeFalsy();
   expect(req1.status()).toEqual(400);
   expect(req2.status()).toEqual(400);
-  expect(req1.status()).toEqual(400);
-  expect(req2.status()).toEqual(400);
   expect(req3.status()).toEqual(400);
   expect(req4.status()).toEqual(400);
   expect(req5.status()).toEqual(400);

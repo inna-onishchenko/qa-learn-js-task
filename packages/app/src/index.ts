@@ -5,6 +5,10 @@ import healthTsRoute from "./routes/health-ts";
 import manualStringJsRoute from "./routes/api/string/manual/split";
 import builtinStringJsRoute from "./routes/api/string/builtin/split";
 
+
+import manualStringJsTrim from "./routes/api/string/manual/trim";
+import builtinStringJsTrim from "./routes/api/string/builtin/trim";
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -24,6 +28,10 @@ app.use("/api/health-js", healthJsRoute);
 app.use("/api/health-ts", healthTsRoute);
 app.use("/api/string/manual", manualStringJsRoute);
 app.use("/api/string/builtin", builtinStringJsRoute);
+
+
+app.use("/api/string/manual", manualStringJsTrim);
+app.use("/api/string/builtin", builtinStringJsTrim);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
