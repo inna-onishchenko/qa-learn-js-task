@@ -22,14 +22,14 @@ router.post("/split", (req, res) => {
     } else if (str !== current && separator !== current) {
         let i = 0;
         while (i < str.length) {
-            let strIsNotSeparator = true;
+            let strIsSeparator = true;
             for (let j = 0; j < separator.length; j++) {
                 if (str[i + j] !== separator[j]) {
-                    strIsNotSeparator = false;
+                    strIsSeparator = false;
                     break;
                 }
             }
-            if (strIsNotSeparator) {
+            if (strIsSeparator) {
                 result.push(current);
                 current = "";
                 i += separator.length;

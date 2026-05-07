@@ -8,6 +8,8 @@ import builtinStringJsRoute from "./routes/api/string/builtin/split";
 
 import manualStringJsTrim from "./routes/api/string/manual/trim";
 import builtinStringJsTrim from "./routes/api/string/builtin/trim";
+import manualStringJsIncludes from "./routes/api/string/manual/includes";
+import builtinStringJsIncludes from "./routes/api/string/builtin/includes";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -32,6 +34,8 @@ app.use("/api/string/builtin", builtinStringJsRoute);
 
 app.use("/api/string/manual", manualStringJsTrim);
 app.use("/api/string/builtin", builtinStringJsTrim);
+app.use("/api/string/manual", manualStringJsIncludes);
+app.use("/api/string/builtin", builtinStringJsIncludes);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
