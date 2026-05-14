@@ -2,8 +2,10 @@ import express from "express";
 import path from "path";
 import healthJsRoute from "./routes/health-js";
 import healthTsRoute from "./routes/health-ts";
-import manualStringJsRoute from "./routes/api/string/manual/split";
-import builtinStringJsRoute from "./routes/api/string/builtin/split";
+import manualStringJsSplit from "./routes/api/string/manual/split";
+import builtinStringJsSplit from "./routes/api/string/builtin/split";
+import manualStringJsRepeat from "./routes/api/string/manual/repeat";
+import builtinStringJsRepeat from "./routes/api/string/builtin/repeat";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,9 +24,10 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 app.use("/api/health-js", healthJsRoute);
 app.use("/api/health-ts", healthTsRoute);
-app.use("/api/string/manual", manualStringJsRoute);
-app.use("/api/string/builtin", builtinStringJsRoute);
-
+app.use("/api/string/manual", manualStringJsSplit);
+app.use("/api/string/builtin", builtinStringJsSplit);
+app.use("/api/string/manual", manualStringJsRepeat);
+app.use("/api/string/builtin", builtinStringJsRepeat);
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
