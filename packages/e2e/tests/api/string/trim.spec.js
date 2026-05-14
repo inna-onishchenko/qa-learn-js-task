@@ -12,35 +12,46 @@ const nullStr = null;
 const nanStr = NaN;
 const expectedResult3 = "Input parameter is not a string";
 
-
 // --- API tests ---
 
-test("Both GET /api/string/manual/trim and GET /api/string/builtin/trim responses are ok", async ({ request }) => {
-    const req1 = await request.post(`/api/string/manual/trim`, { data: { str: startEndWithSpaces } });
-    const req2 = await request.post(`/api/string/builtin/trim`, { data: { str: startEndWithSpaces } });
-    const resBody1 = await req1.json();
-    const resBody2 = await req2.json();
-    expect(req1.ok()).toBeTruthy();
-    expect(req2.ok()).toBeTruthy();
-    expect(req1.status()).toEqual(200);
-    expect(req2.status()).toEqual(200);
-    expect(resBody1.status).toEqual("ok");
-    expect(resBody2.status).toEqual("ok");
-    expect(resBody1.language).toEqual("javascript");
-    expect(resBody2.language).toEqual("javascript");
+test("Both GET /api/string/manual/trim and GET /api/string/builtin/trim responses are ok", async ({
+  request,
+}) => {
+  const req1 = await request.post(`/api/string/manual/trim`, { data: { str: startEndWithSpaces } });
+  const req2 = await request.post(`/api/string/builtin/trim`, {
+    data: { str: startEndWithSpaces },
+  });
+  const resBody1 = await req1.json();
+  const resBody2 = await req2.json();
+  expect(req1.ok()).toBeTruthy();
+  expect(req2.ok()).toBeTruthy();
+  expect(req1.status()).toEqual(200);
+  expect(req2.status()).toEqual(200);
+  expect(resBody1.status).toEqual("ok");
+  expect(resBody2.status).toEqual("ok");
+  expect(resBody1.language).toEqual("javascript");
+  expect(resBody2.language).toEqual("javascript");
 });
 
-test("Both GET /api/string/manual/trim and GET /api/string/builtin/trim messages are strings", async ({ request }) => {
-    const req1 = await request.post(`/api/string/manual/trim`, { data: { str: startEndWithSpaces } });
-    const req2 = await request.post(`/api/string/builtin/trim`, { data: { str: startEndWithSpaces } });
-    const resBody1 = await req1.json();
-    const resBody2 = await req2.json();
-    expect(typeof resBody1.message).toEqual("string");
-    expect(typeof resBody2.message).toEqual("string");
+test("Both GET /api/string/manual/trim and GET /api/string/builtin/trim messages are strings", async ({
+  request,
+}) => {
+  const req1 = await request.post(`/api/string/manual/trim`, { data: { str: startEndWithSpaces } });
+  const req2 = await request.post(`/api/string/builtin/trim`, {
+    data: { str: startEndWithSpaces },
+  });
+  const resBody1 = await req1.json();
+  const resBody2 = await req2.json();
+  expect(typeof resBody1.message).toEqual("string");
+  expect(typeof resBody2.message).toEqual("string");
 });
 
-test("Both GET /api/string/builtin/trim and GET /api/string/manual/trim handle leading and trailing whitespace correctly", async ({ request }) => {
-  const req1 = await request.post(`/api/string/builtin/trim`, { data: { str: startEndWithSpaces } });
+test("Both GET /api/string/builtin/trim and GET /api/string/manual/trim handle leading and trailing whitespace correctly", async ({
+  request,
+}) => {
+  const req1 = await request.post(`/api/string/builtin/trim`, {
+    data: { str: startEndWithSpaces },
+  });
   const req2 = await request.post(`/api/string/manual/trim`, { data: { str: startEndWithSpaces } });
   const req3 = await request.post(`/api/string/builtin/trim`, { data: { str: startWithSpaces } });
   const req4 = await request.post(`/api/string/manual/trim`, { data: { str: startWithSpaces } });
@@ -61,7 +72,9 @@ test("Both GET /api/string/builtin/trim and GET /api/string/manual/trim handle l
   expect(resBody1).toEqual(resBody2);
 });
 
-test("Both GET /api/string/builtin/trim and GET /api/string/manual/trim can handle empty and space strings", async ({ request }) => {
+test("Both GET /api/string/builtin/trim and GET /api/string/manual/trim can handle empty and space strings", async ({
+  request,
+}) => {
   const req1 = await request.post(`/api/string/builtin/trim`, { data: { str: emptyStr } });
   const req2 = await request.post(`/api/string/manual/trim`, { data: { str: emptyStr } });
   const req3 = await request.post(`/api/string/builtin/trim`, { data: { str: spaceStr } });
@@ -77,7 +90,9 @@ test("Both GET /api/string/builtin/trim and GET /api/string/manual/trim can hand
   expect(resBody1).toEqual(resBody2);
 });
 
-test("Both GET /api/string/manual/trim and GET /api/string/builtin/trim can handle invalid input", async ({ request }) => {
+test("Both GET /api/string/manual/trim and GET /api/string/builtin/trim can handle invalid input", async ({
+  request,
+}) => {
   const req1 = await request.post(`/api/string/manual/trim`, { data: { str: nullStr } });
   const req2 = await request.post(`/api/string/builtin/trim`, { data: { str: nullStr } });
   const req3 = await request.post(`/api/string/manual/trim`, { data: { str: nanStr } });
@@ -110,8 +125,6 @@ test("Both GET /api/string/manual/trim and GET /api/string/builtin/trim can hand
   expect(resBody4.message).toEqual(expectedResult3);
   expect(resBody5.message).toEqual(expectedResult3);
   expect(resBody6.message).toEqual(expectedResult3);
-}
-);
+});
 
 // --- UI test ---
-
