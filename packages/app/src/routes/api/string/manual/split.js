@@ -17,7 +17,7 @@ router.post("/split", (req, res) => {
     result.push(str);
     res.json({ status: "ok", language: "javascript", message: result });
   } else if (str === current && separator !== current) {
-    result.push(emptyStr);
+    result.push(current);
     res.json({ status: "ok", language: "javascript", message: result });
   } else if (str !== current && separator !== current) {
     let i = 0;
