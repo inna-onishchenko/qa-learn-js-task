@@ -7,6 +7,10 @@ import builtinStringJsSplit from "./routes/api/string/builtin/split";
 import manualStringJsRepeat from "./routes/api/string/manual/repeat";
 import builtinStringJsRepeat from "./routes/api/string/builtin/repeat";
 
+
+import manualStringJsTrim from "./routes/api/string/manual/trim";
+import builtinStringJsTrim from "./routes/api/string/builtin/trim";
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -28,6 +32,8 @@ app.use("/api/string/manual", manualStringJsSplit);
 app.use("/api/string/builtin", builtinStringJsSplit);
 app.use("/api/string/manual", manualStringJsRepeat);
 app.use("/api/string/builtin", builtinStringJsRepeat);
+app.use("/api/string/manual", manualStringJsTrim);
+app.use("/api/string/builtin", builtinStringJsTrim);
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
