@@ -7,19 +7,19 @@ router.post("/split", (req, res) => {
     const separator = req.body.separator;
     let current = "";
     let result = [];
-    if (typeof(str) !== "string" || typeof(separator) !== "string") {
-        let result = "Invalid input parameters";
+    if (typeof str !== "string" || typeof separator !== "string") {
+        const result = "Invalid input parameters";
         res.statusCode = 400;
         res.json({ status: "bad_request", language: "javascript", message: result });
-    } else if (str === current && separator === current) {
+    } else if (str === '' && separator === '') {
         res.json({ status: "ok", language: "javascript", message: result });
-    } else if (str !== current && separator === current) {
+    } else if (str !== '' && separator === '') {
         result.push(str);
         res.json({ status: "ok", language: "javascript", message: result });
-    } else if (str === current && separator !== current) {
-        result.push(emptyStr);
+    } else if (str === '' && separator !== '') {
+        result.push(current);
         res.json({ status: "ok", language: "javascript", message: result });
-    } else if (str !== current && separator !== current) {
+    } else if (str !== '' && separator !== '') {
         let i = 0;
         while (i < str.length) {
             let strIsNotSeparator = true;
