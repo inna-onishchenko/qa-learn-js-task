@@ -844,11 +844,11 @@ Topics: `--noEmit`, `any`, type narrowing, strict null checks.
 
 Use this to track your progress:
 
-- [ ] **1.1** `split` endpoint + test
-- [ ] **1.2** `repeat` endpoint + test
-- [ ] **1.3** `trim` endpoint + test
-- [ ] **1.4** `includes` endpoint + test
-- [ ] **1.5** `padStart` endpoint + test
+- [x] **1.1** `split` endpoint + test
+- [x] **1.2** `repeat` endpoint + test
+- [x] **1.3** `trim` endpoint + test
+- [x] **1.4** `includes` endpoint + test
+- [x] **1.5** `padStart` endpoint + test
 - [ ] **1.6** `slice` endpoint + test
 - [ ] **1.7** `replace` endpoint + test
 - [ ] **1.8** `startsWith/endsWith` endpoint + test
